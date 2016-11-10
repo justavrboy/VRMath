@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 
 public class GridManager : MonoBehaviour {
     [SerializeField]
@@ -7,11 +7,7 @@ public class GridManager : MonoBehaviour {
     [SerializeField]
     private GameObject guidanceGrid;
     [SerializeField]
-    private GameObject xAxisLabeler;
-    [SerializeField]
-    private GameObject yAxisLabeler;
-    [SerializeField]
-    private GameObject zAxisLabeler;
+    private TextMesh axisLabeler;
 
     private GridAlphaController[] gridControllers;
 
@@ -45,23 +41,12 @@ public class GridManager : MonoBehaviour {
             }
         }
 
-        // Label the grid closest to the hand
-        xAxisLabeler.transform.position = closestGrid.transform.position;
-        yAxisLabeler.transform.position = closestGrid.transform.position;
-        zAxisLabeler.transform.position = closestGrid.transform.position;
+        Vector3 controllerPos = vrController.transform.position;
+        // TODO: This has to scale with different world scale...
+        axisLabeler.transform.position = vrController.transform.position + Vector3.up * 0.5f;
+        axisLabeler.text = controllerPos.ToString();
 
-        foreach (Transform child in xAxisLabeler.transform) {
-            child.GetComponent<TextMesh>().text = child.transform.position.x.ToString("0.0");
-        }
-
-        foreach (Transform child in yAxisLabeler.transform) {
-            child.GetComponent<TextMesh>().text = child.transform.position.y.ToString("0.0");
-        }
-
-        foreach (Transform child in zAxisLabeler.transform) {
-            child.GetComponent<TextMesh>().text = child.transform.position.z.ToString("0.0");
-        }
-	}
+    }
 
     private Vector3 FloorVector(Vector3 originalPos) {
         float x = (Mathf.Floor(originalPos.x));
