@@ -52,7 +52,7 @@
 				half4 c = tex2D(_MainTex, i.uv_MainTex);
 				c.a += 0.5h * clamp(_Alpha, 0.h, 1.h) - 0.5h;
 				c.a -= sqrt((0.5h - i.uv_MainTex.x) * (0.5h - i.uv_MainTex.x) +
-							(0.5h - i.uv_MainTex.y) * (0.5h - i.uv_MainTex.y)) * 0.4h;	
+							(0.5h - i.uv_MainTex.y) * (0.5h - i.uv_MainTex.y)) * 0.6h;	
 				return c;
 			}
 			ENDCG

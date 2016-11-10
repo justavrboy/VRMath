@@ -3,9 +3,15 @@ using System.Collections;
 
 public class GridManager : MonoBehaviour {
     [SerializeField]
-    private GameObject VRController;
+    private GameObject vrController;
     [SerializeField]
-    private GameObject GuidanceGrid;
+    private GameObject guidanceGrid;
+    [SerializeField]
+    private GameObject xAxisLabeler;
+    [SerializeField]
+    private GameObject yAxisLabeler;
+    [SerializeField]
+    private GameObject zAxisLabeler;
 
     private GridAlphaController[] gridControllers;
 
@@ -23,12 +29,37 @@ public class GridManager : MonoBehaviour {
 	}
 	
 	void Update() {
-        transform.position = FloorVector(VRController.transform.position);
+        transform.position = FloorVector(vrController.transform.position);
 
+        // Set alpha of all grids, while keeping track of the one closest to the hand
+        GridAlphaController closestGrid = gridControllers[0];
+        float shortestDistance = float.MaxValue;
         foreach (GridAlphaController gridController in gridControllers) {
             float distance = Vector3.Distance(gridController.transform.position,
-                    VRController.transform.position);
+                    vrController.transform.position);
             gridController.SetGridAlpha(1.6f - distance);
+
+            if (distance > shortestDistance) {
+                closestGrid = gridController;
+                shortestDistance = distance;
+            }
+        }
+
+        // Label the grid closest to the hand
+        xAxisLabeler.transform.position = closestGrid.transform.position;
+        yAxisLabeler.transform.position = closestGrid.transform.position;
+        zAxisLabeler.transform.position = closestGrid.transform.position;
+
+        foreach (Transform child in xAxisLabeler.transform) {
+            child.GetComponent<TextMesh>().text = child.transform.position.x.ToString("0.0");
+        }
+
+        foreach (Transform child in yAxisLabeler.transform) {
+            child.GetComponent<TextMesh>().text = child.transform.position.y.ToString("0.0");
+        }
+
+        foreach (Transform child in zAxisLabeler.transform) {
+            child.GetComponent<TextMesh>().text = child.transform.position.z.ToString("0.0");
         }
 	}
 

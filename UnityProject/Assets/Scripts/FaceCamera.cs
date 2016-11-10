@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class FaceCamera : MonoBehaviour {
-    public TextMesh textMesh;
+    private TextMesh textMesh;
 
 	// Use this for initialization
 	void Start() {
@@ -12,6 +12,5 @@ public class FaceCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
        textMesh.transform.LookAt(Camera.main.transform.position);
-       textMesh.text = "Text";
     }
 }
